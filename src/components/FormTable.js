@@ -24,9 +24,19 @@ function FormTable() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Set the number of items per page
 
+  const categoryOptions = [
+    { label: "Select Category", value: ""},
+    { label: "Groceries", value: "Groceries" },
+    { label: "Medicine", value: "Medicine" },
+    { label: "Bills", value: "Bills" },
+    { label: "Utilities", value: "Utilities" },
+    { label: "Rent", value: "Rent" },
+    // Add more options as needed
+  ];
+
   // Define the validation schema for form fields
   const schema = yup.object().shape({
-    category: yup.string().required('Category is required'),
+    category: yup.string().required('Category is required').oneOf(categoryOptions.map(option => option.value), 'Invalid category'),
     date: yup.date().required('Date is required'),
     quantity: yup.number().required('Quantity is required').positive('Quantity must be a positive number'),
     amount: yup.number().required('Amount is required').positive('Amount must be a positive number'),
@@ -172,16 +182,6 @@ function FormTable() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredExpenses.slice(indexOfFirstItem, indexOfLastItem);
-
-  const categoryOptions = [
-    { label: "Select Category", value: ""},
-    { label: "Groceries", value: "Groceries" },
-    { label: "Medicine", value: "Medicine" },
-    { label: "Bills", value: "Bills" },
-    { label: "Utilities", value: "Utilities" },
-    { label: "Rent", value: "Rent" },
-    // Add more options as needed
-  ];
 
   return (
     <div className="container mx-auto p-4">
