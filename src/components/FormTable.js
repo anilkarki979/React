@@ -1,10 +1,21 @@
+/*
+Main Component
+
+Author : Anil Karki
+Date : 6/25/2023
+
+*/
+
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import * as yup from 'yup';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import en from 'date-fns/locale/en-US';
+import Total from './Total';
+import Table from './Table';
 
+// Function for main component
 function FormTable() {
   registerLocale('en-US', en); // Register 'en-US' locale with react-datepicker
   setDefaultLocale('en-US'); // Set 'en-US' as the default locale for react-datepicker
@@ -185,13 +196,12 @@ function FormTable() {
 
   return (
     <div className="container mx-auto p-4">
-      {/* <h1 className="text-3xl font-bold mb-4">Expense Tracker</h1> */}
-      <h1 className="text-3xl font-bold mb-4 text-blue-700 text-center shadow-lg rounded-md p-4">Expense Tracker</h1>
+      <h1 className="text-3xl font-bold mb-4 text-black-700 text-center shadow-lg rounded-md p-4 bg-white">Expense Tracker</h1>
 
-      <form onSubmit={handleAddExpense} className="mb-4 border border-gray-300 p-4 rounded">
+      <form onSubmit={handleAddExpense} className="mb-4 border border-gray-300 p-4 rounded bg-white">
         {/* Category */}
         <div className="flex flex-wrap mb-2">
-          <label className="w-full sm:w-1/4" htmlFor="category">
+          <label className="w-full sm:w-1/4 font-bold" htmlFor="category" >
             Category:
           </label>
           <select
@@ -209,7 +219,7 @@ function FormTable() {
 
         {/* Date */}
         <div className="flex flex-wrap mb-2">
-          <label className="w-full sm:w-1/4" htmlFor="date">
+          <label className="w-full sm:w-1/4 font-bold" htmlFor="date">
             Date:
           </label>
           <div className="w-full sm:w-3/4 p-2">
@@ -227,7 +237,7 @@ function FormTable() {
 
         {/* Quantity */}
         <div className="flex flex-wrap mb-2">
-          <label className="w-full sm:w-1/4" htmlFor="quantity">
+          <label className="w-full sm:w-1/4 font-bold" htmlFor="quantity">
             Quantity:
           </label>
           <input
@@ -248,7 +258,7 @@ function FormTable() {
 
         {/* Amount */}
         <div className="flex flex-wrap mb-2">
-          <label className="w-full sm:w-1/4" htmlFor="amount">
+          <label className="w-full sm:w-1/4 font-bold" htmlFor="amount">
             Amount:
           </label>
           <input
@@ -267,7 +277,7 @@ function FormTable() {
 
         {/* Total */}
         <div className="flex flex-wrap mb-2">
-          <label className="w-full sm:w-1/4" htmlFor="total">
+          <label className="w-full sm:w-1/4 font-bold" htmlFor="total">
             Total:
           </label>
           <input
@@ -283,7 +293,7 @@ function FormTable() {
 
         {/* Notes */}
         <div className="flex flex-wrap mb-2">
-          <label className="w-full sm:w-1/4" htmlFor="notes">
+          <label className="w-full sm:w-1/4 font-bold" htmlFor="notes">
             Notes:
           </label>
           <textarea
@@ -311,146 +321,21 @@ function FormTable() {
         </button>
       </form>
 
-      <div className="mt-4 rounded-lg p-4 shadow-lg rounded-md p-4">
+      <Table
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      sortConfig={sortConfig}
+      setSortConfig={setSortConfig}
+      handleSort={handleSort}
+      currentItems={currentItems}
+      handleEditExpense={handleEditExpense}
+      handleDeleteExpense={handleDeleteExpense}
+      currentPage={currentPage}
+      totalPages={totalPages}
+      handlePageChange={handlePageChange}
+    />
 
-      {/* Expense Table */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center">
-          <label htmlFor="search" className="mr-2">
-            Search:
-          </label>
-          <input
-            id="search"
-            type="text"
-            className="p-2 border border-gray-300 rounded"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by category"
-          />
-        </div>
-        <div>
-          <button
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setSortConfig({ field: '', direction: '' })}
-          >
-            Clear Sort
-          </button>
-        </div>
-      </div>
-
-      <table className="w-full border-gray-300">
-        <thead>
-          <tr>
-            <th
-              className={`px-4 py-2 border text-center cursor-pointer ${
-                sortConfig.field === 'category' ? 'bg-gray-200' : ''
-              }`}
-              onClick={() => handleSort('category')}
-            >
-              Category
-            </th>
-            <th
-              className={`px-4 py-2 border text-center cursor-pointer ${
-                sortConfig.field === 'date' ? 'bg-gray-200' : ''
-              }`}
-              onClick={() => handleSort('date')}
-            >
-              Date
-            </th>
-            <th
-              className={`px-4 py-2 border text-center cursor-pointer ${
-                sortConfig.field === 'quantity' ? 'bg-gray-200' : ''
-              }`}
-              onClick={() => handleSort('quantity')}
-            >
-              Quantity
-            </th>
-            <th
-              className={`px-4 py-2 border text-center cursor-pointer ${
-                sortConfig.field === 'amount' ? 'bg-gray-200' : ''
-              }`}
-              onClick={() => handleSort('amount')}
-            >
-              Amount
-            </th>
-            <th
-              className={`px-4 py-2 border text-center cursor-pointer ${
-                sortConfig.field === 'total' ? 'bg-gray-200' : ''
-              }`}
-              onClick={() => handleSort('total')}
-            >
-              Total
-            </th>
-            <th
-              className={`px-4 py-2 border text-center cursor-pointer ${
-                sortConfig.field === 'notes' ? 'bg-gray-200' : ''
-              }`}
-              onClick={() => handleSort('notes')}
-            >
-              Notes
-            </th>
-            <th className="px-4 py-2 border text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((expense, index) => (
-            <tr key={index}>
-              <td className="px-4 py-2 border text-center">{expense.category}</td>
-              <td className="px-4 py-2 border text-center">{expense.date.toDateString()}</td>
-              <td className="px-4 py-2 border text-center">{expense.quantity}</td>
-              <td className="px-4 py-2 border text-center">{expense.amount}</td>
-              <td className="px-4 py-2 border text-center">{expense.total}</td>
-              <td className="px-4 py-2 border text-center">{expense.notes}</td>
-              <td className="px-4 py-2 border text-center">
-                <button
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2"
-                  onClick={() => handleEditExpense(index)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                  onClick={() => handleDeleteExpense(index)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Pagination Controls */}
-      <div className="flex justify-center mt-4">
-        <button
-          className="bg-yellow-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <button
-          className="bg-purple-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
-
-      {/* Display current page and total number of pages */}
-      <div className="flex justify-center mt-4">
-        <p>Page {currentPage} of {totalPages}</p>
-      </div>
-
-      </div>
-
-      <div className="mt-4 rounded-lg p-4 shadow-lg rounded-md p-4">
-        {/* Total Quantity, Total Data and Total Amount */}
-        <p className="mb-2"><strong>Total Quantity :</strong> {expenses.reduce((sum, expense) => sum + parseInt(expense.quantity), 0)}</p> 
-        <p className="mb-2"><strong>Total Expenses :</strong> {expenses.length}</p> 
-        <p className="mb-2"><strong>Grand Total :</strong> {totalAmount.toFixed(2)}</p>
-      </div>
+      <Total expenses={expenses} totalAmount={totalAmount} />
     </div>
   );
 }
