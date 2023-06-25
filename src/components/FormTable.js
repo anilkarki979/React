@@ -14,6 +14,7 @@ import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import en from 'date-fns/locale/en-US';
 import Total from './Total';
 import Table from './Table';
+import ConfirmationModal from './Modal';
 
 // Function for main component
 function FormTable() {
@@ -34,6 +35,8 @@ function FormTable() {
   const [totalAmount, setTotalAmount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5); // Set the number of items per page
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(-1);
 
   const categoryOptions = [
     { label: "Select Category", value: ""},
@@ -112,14 +115,23 @@ function FormTable() {
     setEditingIndex(index);
   };
 
-  // Function to handle deleting an expense
-  const handleDeleteExpense = (index) => {
-    const shouldDelete = window.confirm('Are you sure you want to delete this expense?');
-    if (shouldDelete) {
-      const updatedExpenses = [...expenses];
-      updatedExpenses.splice(index, 1);
-      setExpenses(updatedExpenses);
-    }
+   // Function to handle deleting an expense
+   const handleDeleteExpense = (index) => {
+    setDeleteIndex(index);
+    setIsConfirmationModalOpen(true);
+  };
+
+  // Function to confirm deleting an expense
+  const handleConfirmDelete = () => {
+    const updatedExpenses = [...expenses];
+    updatedExpenses.splice(deleteIndex, 1);
+    setExpenses(updatedExpenses);
+    setIsConfirmationModalOpen(false);
+  };
+
+  // Function to cancel deleting an expense
+  const handleCancelDelete = () => {
+    setIsConfirmationModalOpen(false);
   };
 
   // Function to reset the form fields
@@ -194,11 +206,17 @@ function FormTable() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredExpenses.slice(indexOfFirstItem, indexOfLastItem);
 
+  <ConfirmationModal
+  isOpen={isConfirmationModalOpen}
+  handleConfirm={handleConfirmDelete}
+  handleCancel={handleCancelDelete}
+  />
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-black-700 text-center shadow-lg rounded-md p-4 bg-white">Expense Tracker</h1>
 
-      <form onSubmit={handleAddExpense} className="mb-4 border border-gray-300 p-4 rounded bg-white">
+      <form onSubmit={handleAddExpense} className="mb-4 border border-gray-300 p-4 rounded shadow-lg bg-white">
         {/* Category */}
         <div className="flex flex-wrap mb-2">
           <label className="w-full sm:w-1/4 font-bold" htmlFor="category" >
@@ -336,6 +354,12 @@ function FormTable() {
     />
 
       <Total expenses={expenses} totalAmount={totalAmount} />
+
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        handleConfirm={handleConfirmDelete}
+        handleCancel={handleCancelDelete}
+      />
     </div>
   );
 }
