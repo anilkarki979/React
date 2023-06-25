@@ -114,7 +114,7 @@ function FormTable() {
   // Function to reset the form fields
   const resetForm = () => {
     setCategory('');
-    setDate(null);
+    setDate(today);
     setQuantity('');
     setAmount('');
     setTotal('');
@@ -185,9 +185,10 @@ function FormTable() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Expense Tracker</h1>
+      {/* <h1 className="text-3xl font-bold mb-4">Expense Tracker</h1> */}
+      <h1 className="text-3xl font-bold mb-4 text-blue-700 text-center shadow-lg rounded-md p-4">Expense Tracker</h1>
 
-      <form onSubmit={handleAddExpense} className="mb-4">
+      <form onSubmit={handleAddExpense} className="mb-4 border border-gray-300 p-4 rounded">
         {/* Category */}
         <div className="flex flex-wrap mb-2">
           <label className="w-full sm:w-1/4" htmlFor="category">
@@ -303,12 +304,14 @@ function FormTable() {
         </button>
         <button
           type="button"
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-pink-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={resetForm}
         >
           Cancel
         </button>
       </form>
+
+      <div className="mt-4 rounded-lg p-4 shadow-lg rounded-md p-4">
 
       {/* Expense Table */}
       <div className="flex items-center justify-between mb-4">
@@ -335,7 +338,7 @@ function FormTable() {
         </div>
       </div>
 
-      <table className="w-full border-collapse">
+      <table className="w-full border-gray-300">
         <thead>
           <tr>
             <th
@@ -420,14 +423,14 @@ function FormTable() {
       {/* Pagination Controls */}
       <div className="flex justify-center mt-4">
         <button
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
+          className="bg-yellow-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
           Previous
         </button>
         <button
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+          className="bg-purple-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
@@ -440,11 +443,13 @@ function FormTable() {
         <p>Page {currentPage} of {totalPages}</p>
       </div>
 
-      <div className="mt-4">
+      </div>
+
+      <div className="mt-4 rounded-lg p-4 shadow-lg rounded-md p-4">
         {/* Total Quantity, Total Data and Total Amount */}
-        <p><strong>Total Quantity :</strong> {expenses.reduce((sum, expense) => sum + parseInt(expense.quantity), 0)}</p> 
-        <p><strong>Total Expenses :</strong> {expenses.length}</p> 
-        <p><strong>Grand Total :</strong> {totalAmount.toFixed(2)}</p>
+        <p className="mb-2"><strong>Total Quantity :</strong> {expenses.reduce((sum, expense) => sum + parseInt(expense.quantity), 0)}</p> 
+        <p className="mb-2"><strong>Total Expenses :</strong> {expenses.length}</p> 
+        <p className="mb-2"><strong>Grand Total :</strong> {totalAmount.toFixed(2)}</p>
       </div>
     </div>
   );
