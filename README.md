@@ -4,6 +4,11 @@
 
 In the project directory, you can run:
 
+### Installation
+To use this component in your React project, you need to install the required dependencies. Make sure you have Node.js and npm installed on your machine. Then, follow these steps:
+
+### `npm install`
+
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -21,11 +26,6 @@ Your app is ready to be deployed!
 
 ###  Expense Tracker
 This is a React component that provides a form and table for tracking expenses. The component allows users to add, edit, and delete expenses, as well as search and sort the expense table.
-
-### Installation
-To use this component in your React project, you need to install the required dependencies. Make sure you have Node.js and npm installed on your machine. Then, follow these steps:
-
-### `npm install`
 
 ### Usage
 The FormTable component provides a form for adding or updating expenses and a table for displaying and managing expenses.
