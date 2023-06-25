@@ -206,6 +206,7 @@ function FormTable() {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredExpenses.slice(indexOfFirstItem, indexOfLastItem);
 
+  // Popup Modal
   <ConfirmationModal
   isOpen={isConfirmationModalOpen}
   handleConfirm={handleConfirmDelete}
